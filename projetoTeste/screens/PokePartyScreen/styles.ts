@@ -8,13 +8,7 @@ export const styles = StyleSheet.create({
   content: {
     backgroundColor: '#fff',
   },
-  loadingContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loadingText: {
-    marginTop: 15,
-    fontSize: 16,
-    color: '#666',
+  scrollView: {
+    flex: 1,
   },
 });

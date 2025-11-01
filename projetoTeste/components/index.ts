@@ -8,3 +8,4 @@ export { ActionButtons } from './ActionButtons';
 export { ImageUpload } from './ImageUpload';
 export { UserProfile } from './UserProfile';
 export { FavoritePokemons } from './FavoritePokemons';
+export { PartyPokemons } from './PartyPokemons';

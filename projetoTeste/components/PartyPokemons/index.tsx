@@ -12,26 +12,25 @@ import { styles } from './styles';
 
 export interface PartyPokemon {
   id: number;
-  pokemon_id: number;
   name: string;
   image: string;
   types: string[];
   weaknesses: string[];
-  added_at: string;
 }
 
-interface PartyPokemonListProps {
-  pokemons: PartyPokemon[];
-  onRemovePokemon?: (pokemonId: number) => void;
+interface PartyPokemonsProps {
+  party: PartyPokemon[];
+  onRemoveFromParty?: (pokemonId: number) => void;
 }
 
-export const PartyPokemonList: React.FC<PartyPokemonListProps> = ({ 
-  pokemons, 
-  onRemovePokemon 
+export const PartyPokemons: React.FC<PartyPokemonsProps> = ({ 
+  party, 
+  onRemoveFromParty 
 }) => {
   const { width } = useWindowDimensions();
+  const pokemonCardWidth = (width - 60) / 2; // 2 colunas com margens
 
-  const handleRemovePokemon = (pokemon: PartyPokemon) => {
+  const handleRemoveFromParty = (pokemon: PartyPokemon) => {
     Alert.alert(
       'Remover da Party',
       `Tem certeza que deseja remover ${pokemon.name} da sua party?`,
@@ -44,8 +43,8 @@ export const PartyPokemonList: React.FC<PartyPokemonListProps> = ({
           text: 'Remover',
           style: 'destructive',
           onPress: () => {
-            if (onRemovePokemon) {
-              onRemovePokemon(pokemon.pokemon_id);
+            if (onRemoveFromParty) {
+              onRemoveFromParty(pokemon.id);
             }
           },
         },
@@ -53,16 +52,12 @@ export const PartyPokemonList: React.FC<PartyPokemonListProps> = ({
     );
   };
 
-  if (pokemons.length === 0) {
+  if (party.length === 0) {
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyTitle}>Sua Party está vazia</Text>
-        <Text style={styles.emptyText}>
-          Volte à PokeInfo para adicionar Pokémon à sua party!
-        </Text>
-        <Text style={styles.emptySubtext}>
-          Máximo de 6 Pokémon na party
-        </Text>
+        <Text style={styles.emptyText}>Adicione Pokémon à sua party na tela PokeInfo!</Text>
+        <Text style={styles.partyLimit}>Limite: 6 Pokémon</Text>
       </View>
     );
   }
@@ -72,7 +67,7 @@ export const PartyPokemonList: React.FC<PartyPokemonListProps> = ({
       <View style={styles.header}>
         <Text style={styles.sectionTitle}>Minha Party</Text>
         <Text style={styles.partyCount}>
-          {pokemons.length}/6 Pokémon
+          {party.length}/6 Pokémon
         </Text>
       </View>
       
@@ -80,16 +75,16 @@ export const PartyPokemonList: React.FC<PartyPokemonListProps> = ({
         style={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.pokemonList}>
-          {pokemons.map((pokemon) => (
-            <View key={pokemon.pokemon_id} style={styles.pokemonCard}>
+        <View style={styles.pokemonGrid}>
+          {party.map((pokemon) => (
+            <View key={pokemon.id} style={[styles.pokemonCard, { width: pokemonCardWidth }]}>
               
-              {/* Botão de Remover */}
+              {/* Botão de Remover da Party */}
               <TouchableOpacity
                 style={styles.removeButton}
-                onPress={() => handleRemovePokemon(pokemon)}
+                onPress={() => handleRemoveFromParty(pokemon)}
               >
-                <Text style={styles.removeIcon}>🗑️</Text>
+                <Text style={styles.removeButtonIcon}>🗑️</Text>
               </TouchableOpacity>
               
               {/* Imagem do Pokémon */}
@@ -104,8 +99,8 @@ export const PartyPokemonList: React.FC<PartyPokemonListProps> = ({
                 <Text style={styles.pokemonName}>{pokemon.name}</Text>
                 
                 {/* Tipos */}
-                <View style={styles.typesSection}>
-                  <Text style={styles.sectionLabel}>Tipo:</Text>
+                <View style={styles.typesContainer}>
+                  <Text style={styles.smallLabel}>Tipo:</Text>
                   <View style={styles.chipsContainer}>
                     {pokemon.types.map((type, index) => (
                       <View key={index} style={[styles.chip, styles.typeChip]}>
@@ -116,8 +111,8 @@ export const PartyPokemonList: React.FC<PartyPokemonListProps> = ({
                 </View>
                 
                 {/* Fraquezas */}
-                <View style={styles.typesSection}>
-                  <Text style={styles.sectionLabel}>Fraquezas:</Text>
+                <View style={styles.typesContainer}>
+                  <Text style={styles.smallLabel}>Fraquezas:</Text>
                   <View style={styles.chipsContainer}>
                     {pokemon.weaknesses.map((weakness, index) => (
                       <View key={index} style={[styles.chip, styles.weaknessChip]}>
@@ -126,11 +121,6 @@ export const PartyPokemonList: React.FC<PartyPokemonListProps> = ({
                     ))}
                   </View>
                 </View>
-
-                {/* Data de Adição */}
-                <Text style={styles.addedDate}>
-                  Adicionado em: {new Date(pokemon.added_at).toLocaleDateString('pt-BR')}
-                </Text>
               </View>
             </View>
           ))}
