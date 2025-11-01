@@ -1,9 +1,18 @@
 import React from 'react';
+import { PokePerfilScreen } from './screens';
+
+export default function App() {
+  return <PokePerfilScreen />;
+}
+//Para testar a tela pokeinfo
+{/*import React from 'react';
 import { PokeInfoScreen } from './screens';
 
 export default function App() {
   return <PokeInfoScreen />;
-}
+}*/}
+
+//Para testar a tela de cadastro
 {/*import React from 'react';
 import { CadastroScreen } from './screens';
 
@@ -12,6 +21,7 @@ export default function App() {
   return <CadastroScreen />;
 }*/}
 
+//Para testar a tela de login(tela inicial)
 {/*import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, useWindowDimensions, Alert } from 'react-native';
 import { Header } from './components'; //Importa todos os elementos que estão criados dentro da pasta 'componets' que eu criei.

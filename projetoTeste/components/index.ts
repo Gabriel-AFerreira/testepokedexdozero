@@ -5,3 +5,6 @@ export { HamburgerMenu } from './HamburgerMenu';
 export { PokeHeader } from './PokeHeader';
 export { PokemonInfo } from './PokemonInfo';
 export { ActionButtons } from './ActionButtons';
+export { ImageUpload } from './ImageUpload';
+export { UserProfile } from './UserProfile';
+export { FavoritePokemons } from './FavoritePokemons';
