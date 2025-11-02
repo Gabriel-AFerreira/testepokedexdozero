@@ -1,10 +1,17 @@
-//Para testar a tela de pokeparty
+//Para testara tela de pokedex
 import React from 'react';
+import { PokedexScreen } from './screens';
+
+export default function App() {
+  return <PokedexScreen />;
+}
+//Para testar a tela de pokeparty
+{/*import React from 'react';
 import { PokePartyScreen } from './screens';
 
 export default function App() {
   return <PokePartyScreen />;
-}
+}*/}
 //Para testar a tela de pokeperfil
 {/*import React from 'react';
 import { PokePerfilScreen } from './screens';

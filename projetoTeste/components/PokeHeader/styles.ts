@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   header: {
     backgroundColor: '#FF0000',
-    justifyContent: 'center',
     alignItems: 'center',
     paddingLeft: 20,
     elevation: 4,
@@ -14,9 +13,28 @@ export const styles = StyleSheet.create({
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
+    flexDirection: 'row', // ✅ Para alinhar título e botões
+    justifyContent: "space-between", // ✅ Para separar título e botões
+    paddingHorizontal: 20, // ✅ Adicionado padding horizontal
   },
   headerText: {
     color: '#FFFFFF',
     fontWeight: 'bold',
+    flex: 1, // ✅ Para ocupar espaço disponível
+    textAlign: 'center', // ✅ Centralizar título
+  },
+  // ✅ NOVO: Container para os botões
+  buttonsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  // ✅ NOVO: Botão de pesquisa
+  searchButton: {
+    padding: 10,
+    marginRight: 10, // ✅ Espaço entre lupa e hamburger
+  },
+  searchButtonText: {
+    fontSize: 20,
+    color: '#FFFFFF',
   },
 });

@@ -9,3 +9,4 @@ export { ImageUpload } from './ImageUpload';
 export { UserProfile } from './UserProfile';
 export { FavoritePokemons } from './FavoritePokemons';
 export { PartyPokemons } from './PartyPokemons';
+export { PokedexCard } from './PokedexCard'; // ✅ NOVO COMPONENTE
