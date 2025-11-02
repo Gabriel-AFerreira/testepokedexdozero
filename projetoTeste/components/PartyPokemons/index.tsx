@@ -9,6 +9,7 @@ import {
   Alert 
 } from 'react-native';
 import { styles } from './styles';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export interface PartyPokemon {
   id: number;
@@ -84,7 +85,8 @@ export const PartyPokemons: React.FC<PartyPokemonsProps> = ({
                 style={styles.removeButton}
                 onPress={() => handleRemoveFromParty(pokemon)}
               >
-                <Text style={styles.removeButtonIcon}>🗑️</Text>
+                <MaterialCommunityIcons name="trash-can" size={16} color="#ff0000ff" />
+                {/*<Text style={styles.removeButtonIcon}>🗑️</Text>*/}
               </TouchableOpacity>
               
               {/* Imagem do Pokémon */}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { 
   View, 
   Text, 
+  Image,
   TouchableOpacity, 
   useWindowDimensions,
   Alert 
@@ -45,10 +46,19 @@ export const PokedexCard: React.FC<PokedexCardProps> = ({
 
   return (
     <View style={[styles.card, { width: cardWidth }]}>
-      {/* Número e Nome */}
+      {/* Cabeçalho com Número e Nome */}
       <View style={styles.header}>
         <Text style={styles.pokemonNumber}>#{pokemon.id.toString().padStart(3, '0')}</Text>
         <Text style={styles.pokemonName}>{pokemon.name}</Text>
+      </View>
+
+      {/* SPRITE DO POKÉMON */}
+      <View style={styles.spriteContainer}>
+        <Image
+          source={{ uri: pokemon.image }}
+          style={styles.pokemonSprite}
+          resizeMode="contain"
+        />
       </View>
 
       {/* Tipos */}
@@ -60,15 +70,9 @@ export const PokedexCard: React.FC<PokedexCardProps> = ({
         ))}
       </View>
 
-      {/* Botões de Ação */}
+      {/* BOTÕES DE AÇÃO */}
       <View style={styles.actionsContainer}>
-        <TouchableOpacity
-          style={styles.partyButton}
-          onPress={handleAddToParty}
-        >
-          <Text style={styles.partyButtonText}>Add Party</Text>
-        </TouchableOpacity>
-
+        {/* BOTÃO FAVORITO NA ESQUERDA */}
         <TouchableOpacity
           style={[styles.favoriteButton, isFavorite && styles.favoriteButtonActive]}
           onPress={handleToggleFavorite}
@@ -77,12 +81,20 @@ export const PokedexCard: React.FC<PokedexCardProps> = ({
             {isFavorite ? '★' : '☆'}
           </Text>
         </TouchableOpacity>
+
+        {/* BOTÃO ADD PARTY NA DIREITA */}
+        <TouchableOpacity
+          style={styles.partyButton}
+          onPress={handleAddToParty}
+        >
+          <Text style={styles.partyButtonText}>Add Party</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-// Função para cores dos tipos (você pode expandir esta função)
+// Função para cores dos tipos
 const getTypeColor = (type: string): string => {
   const typeColors: { [key: string]: string } = {
     'Normal': '#A8A878',

@@ -1,10 +1,10 @@
 //Para testara tela de pokedex
-import React from 'react';
+{/*import React from 'react';
 import { PokedexScreen } from './screens';
 
 export default function App() {
   return <PokedexScreen />;
-}
+}*/}
 //Para testar a tela de pokeparty
 {/*import React from 'react';
 import { PokePartyScreen } from './screens';
@@ -31,13 +31,12 @@ export default function App() {
 {/*import React from 'react';
 import { CadastroScreen } from './screens';
 
-// ✅ Substitua temporariamente a tela principal pelo Cadastro
 export default function App() {
   return <CadastroScreen />;
 }*/}
 
 //Para testar a tela de login(tela inicial)
-{/*import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, useWindowDimensions, Alert } from 'react-native';
 import { Header } from './components'; //Importa todos os elementos que estão criados dentro da pasta 'componets' que eu criei.
 import { LoginForm } from './components/LoginForm'; //Importa todos os elementos que estão criados dentro da pasta 'componets' que eu criei.
@@ -76,10 +75,10 @@ export default function App() {
   return (
     <View style={styles.container}>
 
-    // HEADER REUTILIZÁVEL - Tela de Login
+    {/* HEADER REUTILIZÁVEL - Tela de Login */}
       <Header title="PokeLogin" />
 
-      // CONTEÚDO COM FORMULÁRIO
+      {/* CONTEÚDO COM FORMULÁRIO */}
         <View style={[styles.content,{ height: contentHeight }]}>
           <LoginForm 
           onLogin={handleLogin}
@@ -104,4 +103,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
-});*/}
+});

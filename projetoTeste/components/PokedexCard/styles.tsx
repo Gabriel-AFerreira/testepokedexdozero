@@ -35,52 +35,88 @@ export const styles = StyleSheet.create({
     color: '#333',
     textTransform: 'capitalize',
   },
+  // ✅ NOVO: Container do Sprite
+  spriteContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+    backgroundColor: '#f8f8f8',
+    borderRadius: 8,
+    padding: 10,
+  },
+  pokemonSprite: {
+    width: 80,
+    height: 80,
+  },
   typesContainer: {
     flexDirection: 'row',
     marginBottom: 16,
+    justifyContent: 'center',
   },
   typeChip: {
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 16,
-    marginRight: 8,
+    marginHorizontal: 4,
   },
   typeText: {
     color: '#FFFFFF',
     fontSize: 12,
     fontWeight: '600',
   },
+  // ✅ ATUALIZADO: Container dos botões reorganizado
   actionsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  // ✅ BOTÃO FAVORITO MOVido para ESQUERDA
+  favoriteButton: {
+    backgroundColor: '#E0E0E0',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  favoriteButtonActive: {
+    backgroundColor: '#FFD700',
+    shadowColor: '#FFD700',
+    shadowOpacity: 0.4,
+  },
+  favoriteButtonText: {
+    fontSize: 20,
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+  },
+  // ✅ BOTÃO PARTY mantido na DIREITA
   partyButton: {
     backgroundColor: '#2196F3',
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 12,
     borderRadius: 8,
     minWidth: 100,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 3,
   },
   partyButtonText: {
     color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '600',
-  },
-  favoriteButton: {
-    backgroundColor: '#E0E0E0',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  favoriteButtonActive: {
-    backgroundColor: '#FFD700',
-  },
-  favoriteButtonText: {
-    fontSize: 18,
-    color: '#FFFFFF',
   },
 });

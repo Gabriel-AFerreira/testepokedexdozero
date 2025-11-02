@@ -16,6 +16,7 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
+    marginTop: 20,
   },
   partyCount: {
     fontSize: 16,
@@ -25,6 +26,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 12,
+    marginTop: 20,
   },
   scrollContainer: {
     flex: 1,
@@ -57,7 +59,7 @@ export const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: '#FF5252',
+    backgroundColor: '#ffffffff',
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 10,
@@ -72,6 +74,7 @@ export const styles = StyleSheet.create({
   },
   removeButtonIcon: {
     fontSize: 14,
+    color:'#ff0000ff',
   },
   pokemonImage: {
     width: 80,

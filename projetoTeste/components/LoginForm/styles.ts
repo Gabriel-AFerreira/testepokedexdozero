@@ -89,5 +89,7 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     textDecorationLine: 'underline',
+    marginRight: 30,
+    marginLeft: 30,
   },
 });

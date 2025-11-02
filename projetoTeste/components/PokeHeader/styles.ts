@@ -13,25 +13,28 @@ export const styles = StyleSheet.create({
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
-    flexDirection: 'row', // ✅ Para alinhar título e botões
-    justifyContent: "space-between", // ✅ Para separar título e botões
-    paddingHorizontal: 20, // ✅ Adicionado padding horizontal
+    flexDirection: 'row', // Para alinhar título e botões
+    justifyContent: "space-between", // Para separar título e botões
+    paddingHorizontal: 20, // Adicionado padding horizontal
   },
   headerText: {
     color: '#FFFFFF',
     fontWeight: 'bold',
-    flex: 1, // ✅ Para ocupar espaço disponível
-    textAlign: 'center', // ✅ Centralizar título
+    flex: 1, // Para ocupar espaço disponível
+    textAlign: 'left', // Alinha título a esquerda
+    marginTop: 25, // Adiciona uma margem ao topo
   },
-  // ✅ NOVO: Container para os botões
+  // Container para os botões
   buttonsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 25,
   },
-  // ✅ NOVO: Botão de pesquisa
+  // Botão de pesquisa
   searchButton: {
     padding: 10,
-    marginRight: 10, // ✅ Espaço entre lupa e hamburger
+    //marginTop: 25,
+    marginRight: 60, // Espaço entre lupa e hamburger
   },
   searchButtonText: {
     fontSize: 20,

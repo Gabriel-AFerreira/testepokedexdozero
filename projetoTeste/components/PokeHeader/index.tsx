@@ -6,7 +6,7 @@ import { styles } from './styles';
 interface PokeHeaderProps {
   title: string;
   onMenuSelect: (option: string) => void;
-  onSearchPress?: () => void; // ✅ Nova prop para a lupa
+  onSearchPress?: () => void; // Prop para a lupa
 }
 
 export const PokeHeader: React.FC<PokeHeaderProps> = ({ 
@@ -25,7 +25,7 @@ export const PokeHeader: React.FC<PokeHeaderProps> = ({
         {title}
       </Text>
       
-      {/* ✅ Container para os botões do header */}
+      {/* Container para os botões do header */}
       <View style={styles.buttonsContainer}>
         {/* Botão Lupa */}
         {onSearchPress && (
