@@ -1,32 +1,92 @@
+//Para testara tela de pokedex
+{/*import React from 'react';
+import { PokedexScreen } from './screens';
+
+export default function App() {
+  return <PokedexScreen />;
+}*/}
+//Para testar a tela de pokeparty
+{/*import React from 'react';
+import { PokePartyScreen } from './screens';
+
+export default function App() {
+  return <PokePartyScreen />;
+}*/}
+//Para testar a tela de pokeperfil
+{/*import React from 'react';
+import { PokePerfilScreen } from './screens';
+
+export default function App() {
+  return <PokePerfilScreen />;
+}*/}
+//Para testar a tela pokeinfo
+{/*import React from 'react';
+import { PokeInfoScreen } from './screens';
+
+export default function App() {
+  return <PokeInfoScreen />;
+}*/}
+
+//Para testar a tela de cadastro
+{/*import React from 'react';
+import { CadastroScreen } from './screens';
+
+export default function App() {
+  return <CadastroScreen />;
+}*/}
+
+//Para testar a tela de login(tela inicial)
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { StyleSheet, Text, View, useWindowDimensions, Alert } from 'react-native';
+import { Header } from './components'; //Importa todos os elementos que estão criados dentro da pasta 'componets' que eu criei.
+import { LoginForm } from './components/LoginForm'; //Importa todos os elementos que estão criados dentro da pasta 'componets' que eu criei.
+import { CadastroScreen } from './screens';
 
 export default function App() {
 
-  const { width, height } = useWindowDimensions(); // Hook que atualiza automaticamente quando a tela gira ou dimensões mudam
-  
   // Cálculos responsivos com limites mínimos e máximos
+  const { height } = useWindowDimensions();
   const headerHeight = Math.max(60, Math.min(height * 0.12, 120));
-  const fontSize = Math.max(18, Math.min(width * 0.06, 32));
   const contentHeight = height - headerHeight;
+
+  // Função chamada quando o usuário tenta fazer login
+  const handleLogin = (email: string, password: string) => {
+    // Aqui você fará a integração com sua API/banco de dados
+    console.log('Tentativa de login:', { email, password });
+    
+    // Exemplo de feedback
+    Alert.alert(
+      'Login realizado!',
+      `Bem-vindo, ${email}!`,
+      [{ text: 'OK' }]
+    );
+  };
+
+  // Função para "Esqueci minha senha"
+  const handleForgotPassword = () => {
+    Alert.alert('Recuperar Senha', 'Funcionalidade em desenvolvimento');
+  };
+
+  // Função para "Criar conta"
+  const handleSignUp = () => {
+    Alert.alert('Criar Conta', 'Funcionalidade em desenvolvimento');
+  };
 
   return (
     <View style={styles.container}>
 
-      {/* HEADER VERMELHO RESPONSIVO COM LIMITES */}
-      <View style={[styles.header,{width: width,height: headerHeight,}]}>
-        <Text style={[styles.headerText,{fontSize: fontSize}]}>
-          PokeLogin
-        </Text>
-      </View>
+    {/* HEADER REUTILIZÁVEL - Tela de Login */}
+      <Header title="PokeLogin" />
 
-      {/* CONTEÚDO PRINCIPAL */}
-      <View style={[styles.content,{ height: contentHeight }]}>
-        <Text style={styles.welcomeText}>
-          Bem-vindo ao PokeLogin!
-        </Text>
-        <StatusBar style="auto" />
-      </View>
+      {/* CONTEÚDO COM FORMULÁRIO */}
+        <View style={[styles.content,{ height: contentHeight }]}>
+          <LoginForm 
+          onLogin={handleLogin}
+          onForgotPassword={handleForgotPassword}
+          onSignUp={handleSignUp}
+          />
+          <StatusBar style="auto" />
+        </View>
     </View>
   );
 }
@@ -37,32 +97,10 @@ const styles = StyleSheet.create({
     flex: 1, // Ocupa TODA a tela disponível
     backgroundColor: '#fff',
   },
-  header: {
-    backgroundColor: '#FF0000',
-    justifyContent: 'center',
-    paddingLeft: 20,
-    elevation: 4, //Sombra ANDROID (profundidade)
-    shadowColor: '#000', //Cor da sombra iOS
-    shadowOffset: { width: 0, height: 2 }, //Sombra 2px para baixo
-    shadowOpacity: 0.23, //23% de opacidade (sutil)
-    shadowRadius: 2.62, //Desfoque da sombra
-  },
-  headerText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    textShadowColor: 'rgba(0, 0, 0, 0.3)', // Sombra no texto para mais legibilidade
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 2,
-  },
   content: {
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-  },
-  welcomeText: {
-    fontSize: 18,
-    textAlign: 'center',
-    color: '#333',
   },
 });

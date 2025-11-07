@@ -1,0 +1,12 @@
+export { Header } from './Header';
+export { LoginForm } from './LoginForm';
+export { CadastroForm } from './CadastroForm';
+export { HamburgerMenu } from './HamburgerMenu';
+export { PokeHeader } from './PokeHeader';
+export { PokemonInfo } from './PokemonInfo';
+export { ActionButtons } from './ActionButtons';
+export { ImageUpload } from './ImageUpload';
+export { UserProfile } from './UserProfile';
+export { FavoritePokemons } from './FavoritePokemons';
+export { PartyPokemons } from './PartyPokemons';
+export { PokedexCard } from './PokedexCard'; // ✅ NOVO COMPONENTE
