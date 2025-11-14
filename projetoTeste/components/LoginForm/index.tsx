@@ -19,19 +19,23 @@ interface LoginFormProps {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const { width } = useWindowDimensions();
 
-    // Função chamada quando o botão de login é pressionado
+  // Função chamada quando o botão de login é pressionado
   const handleLogin = () => {
+    console.log('LoginForm handleLogin called');
     // Validações básicas
     if (!email.trim()) {
+      console.log('Login validation failed: email vazio');
       Alert.alert('Erro', 'Por favor, digite seu email');
       return;
     }
 
     if (!password.trim()) {
+      console.log('Login validation failed: senha vazia');
       Alert.alert('Erro', 'Por favor, digite sua senha');
       return;
     }
 
+    console.log('Login validations passed, calling onLogin');
     // Chama a função passada via props
     if (onLogin) {
       onLogin(email, password);

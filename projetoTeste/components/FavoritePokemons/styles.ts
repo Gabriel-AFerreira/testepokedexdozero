@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
+    paddingBottom: 20,
   },
   pokemonGrid: {
     flexDirection: 'row',

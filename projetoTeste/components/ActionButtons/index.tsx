@@ -6,12 +6,14 @@ interface ActionButtonsProps {
   onAddToParty: () => void;
   onFavorite: () => void;
   isFavorite?: boolean;
+  inParty?: boolean;
 }
 
 export const ActionButtons: React.FC<ActionButtonsProps> = ({
   onAddToParty,
   onFavorite,
   isFavorite = false,
+  inParty = false,
 }) => {
   const { width } = useWindowDimensions();
   const buttonWidth = Math.min(width * 0.9, 400) / 2 - 10;
@@ -22,7 +24,9 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
         style={[styles.button, styles.partyButton, { width: buttonWidth }]}
         onPress={onAddToParty}
       >
-        <Text style={styles.buttonText}>Adicionar a Party</Text>
+        <Text style={styles.buttonText}>
+          {inParty ? 'Remover da Party' : 'Adicionar a Party'}
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity

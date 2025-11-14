@@ -22,29 +22,36 @@ interface PokedexCardProps {
   pokemon: PokedexPokemon;
   onAddToParty: (pokemon: PokedexPokemon) => void;
   onToggleFavorite: (pokemon: PokedexPokemon) => void;
+  onPress?: () => void;
 }
 
-export const PokedexCard: React.FC<PokedexCardProps> = ({ 
-  pokemon, 
-  onAddToParty, 
-  onToggleFavorite 
+export const PokedexCard: React.FC<PokedexCardProps> = ({
+  pokemon,
+  onAddToParty,
+  onToggleFavorite,
+  onPress
 }) => {
   const { width } = useWindowDimensions();
   const [isFavorite, setIsFavorite] = useState(pokemon.isFavorite || false);
+
+  // Update local state when pokemon prop changes
+  React.useEffect(() => {
+    setIsFavorite(pokemon.isFavorite || false);
+  }, [pokemon.isFavorite]);
 
   const handleAddToParty = () => {
     onAddToParty(pokemon);
   };
 
   const handleToggleFavorite = () => {
-    const newFavoriteState = !isFavorite;
-    setIsFavorite(newFavoriteState);
-    onToggleFavorite({ ...pokemon, isFavorite: newFavoriteState });
+    onToggleFavorite(pokemon);
   };
 
   const cardWidth = width - 40; // Largura total com margens
 
   return (
+    <TouchableOpacity onPress={onPress}>
+      
     <View style={[styles.card, { width: cardWidth }]}>
       {/* Cabeçalho com Número e Nome */}
       <View style={styles.header}>
@@ -91,6 +98,7 @@ export const PokedexCard: React.FC<PokedexCardProps> = ({
         </TouchableOpacity>
       </View>
     </View>
+    </TouchableOpacity>
   );
 };
 

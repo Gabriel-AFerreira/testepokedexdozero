@@ -65,10 +65,7 @@ export const FavoritePokemons: React.FC<FavoritePokemonsProps> = ({
     <View style={styles.container}>
       <Text style={styles.sectionTitle}>Meus Favoritos</Text>
       
-      <ScrollView 
-        style={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
+      <View style={styles.scrollContainer}>
         <View style={styles.pokemonGrid}>
           {favorites.map((pokemon) => (
             <View key={pokemon.id} style={[styles.pokemonCard, { width: pokemonCardWidth }]}>
@@ -119,7 +116,7 @@ export const FavoritePokemons: React.FC<FavoritePokemonsProps> = ({
             </View>
           ))}
         </View>
-      </ScrollView>
+      </View>
     </View>
   );
 };

@@ -53,37 +53,45 @@ export const CadastroForm = ({
 
   // Função chamada quando o botão de cadastro é pressionado
   const handleCadastro = () => {
+    console.log('CadastroForm handleCadastro called');
     // Validações
     if (!formData.nome.trim()) {
+      console.log('Validation failed: nome vazio');
       Alert.alert('Erro', 'Por favor, digite seu nome completo');
       return;
     }
 
     if (!formData.idade.trim() || isNaN(Number(formData.idade)) || Number(formData.idade) < 1) {
+      console.log('Validation failed: idade inválida');
       Alert.alert('Erro', 'Por favor, digite uma idade válida');
       return;
     }
 
     if (!formData.nickname.trim()) {
+      console.log('Validation failed: nickname vazio');
       Alert.alert('Erro', 'Por favor, digite seu nickname');
       return;
     }
 
     if (!formData.email.trim() || !formData.email.includes('@')) {
+      console.log('Validation failed: email inválido');
       Alert.alert('Erro', 'Por favor, digite um email válido');
       return;
     }
 
     if (!formData.senha.trim() || formData.senha.length < 6) {
+      console.log('Validation failed: senha muito curta');
       Alert.alert('Erro', 'A senha deve ter pelo menos 6 caracteres');
       return;
     }
 
     if (formData.senha !== formData.confirmarSenha) {
+      console.log('Validation failed: senhas não coincidem');
       Alert.alert('Erro', 'As senhas não coincidem');
       return;
     }
 
+    console.log('All validations passed, calling onCadastro');
     // Chama a função de cadastro
     if (onCadastro) {
       onCadastro(formData);
