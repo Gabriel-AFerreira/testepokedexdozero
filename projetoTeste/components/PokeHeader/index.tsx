@@ -9,10 +9,10 @@ interface PokeHeaderProps {
   onSearchPress?: () => void; // Prop para a lupa
 }
 
-export const PokeHeader: React.FC<PokeHeaderProps> = ({ 
-  title, 
+export const PokeHeader: React.FC<PokeHeaderProps> = ({
+  title,
   onMenuSelect,
-  onSearchPress 
+  onSearchPress
 }) => {
   const { width, height } = useWindowDimensions();
   
@@ -36,7 +36,7 @@ export const PokeHeader: React.FC<PokeHeaderProps> = ({
             <Text style={styles.searchButtonText}>🔍</Text>
           </TouchableOpacity>
         )}
-        
+
         {/* Hamburger Menu */}
         <HamburgerMenu onSelectOption={onMenuSelect} />
       </View>

@@ -20,6 +20,7 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ onSelectOption }) 
     { id: 'perfil', label: 'PokePerfil' },
     { id: 'dex', label: 'PokeDex' },
     { id: 'party', label: 'PokeParty' },
+    { id: 'logout', label: 'Logout' },
   ];
 
   const handleOptionSelect = (option: string) => {

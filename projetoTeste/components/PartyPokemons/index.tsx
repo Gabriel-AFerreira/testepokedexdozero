@@ -12,7 +12,8 @@ import { styles } from './styles';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export interface PartyPokemon {
-  id: number;
+  id?: number; // position 1-6 for party position
+  pokeid: number; // Pokemon ID (foreign key)
   name: string;
   image: string;
   types: string[];
@@ -44,7 +45,7 @@ export const PartyPokemons: React.FC<PartyPokemonsProps> = ({
           text: 'Remover',
           style: 'destructive',
           onPress: () => {
-            if (onRemoveFromParty) {
+            if (onRemoveFromParty && pokemon.id) {
               onRemoveFromParty(pokemon.id);
             }
           },

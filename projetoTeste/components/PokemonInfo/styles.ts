@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   scrollContent: {
-    paddingBottom: 100, // Espaço para os botões
+    paddingBottom: 20,
   },
   imageContainer: {
     alignItems: 'center',
@@ -57,5 +57,52 @@ export const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '600',
+  },
+  evolutionChip: {
+    backgroundColor: '#2196F3',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    marginRight: 8,
+    marginBottom: 8,
+  },
+  evolutionText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  statsContainer: {
+    marginTop: 10,
+  },
+  statRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  statLabel: {
+    width: 120,
+    fontSize: 14,
+    color: '#333',
+    fontWeight: '500',
+  },
+  statBar: {
+    flex: 1,
+    height: 10,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 5,
+    marginHorizontal: 10,
+    overflow: 'hidden',
+  },
+  statFill: {
+    height: '100%',
+    backgroundColor: '#4CAF50',
+    borderRadius: 5,
+  },
+  statValue: {
+    width: 30,
+    fontSize: 14,
+    color: '#333',
+    textAlign: 'right',
+    fontWeight: '500',
   },
 });

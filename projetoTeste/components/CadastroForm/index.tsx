@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
   useWindowDimensions,
   Alert,
-  ScrollView 
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform
 } from 'react-native';
 import { styles } from './styles';
 
@@ -53,33 +55,40 @@ export const CadastroForm = ({
 
   // Função chamada quando o botão de cadastro é pressionado
   const handleCadastro = () => {
-    // Validações
-    if (!formData.nome.trim()) {
+    // Validações com trim consistente
+    const nome = formData.nome.trim();
+    if (!nome) {
       Alert.alert('Erro', 'Por favor, digite seu nome completo');
       return;
     }
 
-    if (!formData.idade.trim() || isNaN(Number(formData.idade)) || Number(formData.idade) < 1) {
-      Alert.alert('Erro', 'Por favor, digite uma idade válida');
+    const idadeStr = formData.idade.trim();
+    const idade = Number(idadeStr);
+    if (!idadeStr || isNaN(idade) || idade < 1 || idade > 120) {
+      Alert.alert('Erro', 'Por favor, digite uma idade válida (1-120)');
       return;
     }
 
-    if (!formData.nickname.trim()) {
+    const nickname = formData.nickname.trim();
+    if (!nickname) {
       Alert.alert('Erro', 'Por favor, digite seu nickname');
       return;
     }
 
-    if (!formData.email.trim() || !formData.email.includes('@')) {
+    const email = formData.email.trim();
+    if (!email || !email.includes('@')) {
       Alert.alert('Erro', 'Por favor, digite um email válido');
       return;
     }
 
-    if (!formData.senha.trim() || formData.senha.length < 6) {
+    const senha = formData.senha.trim();
+    if (!senha || senha.length < 6) {
       Alert.alert('Erro', 'A senha deve ter pelo menos 6 caracteres');
       return;
     }
 
-    if (formData.senha !== formData.confirmarSenha) {
+    const confirmarSenha = formData.confirmarSenha.trim();
+    if (senha !== confirmarSenha) {
       Alert.alert('Erro', 'As senhas não coincidem');
       return;
     }
@@ -94,11 +103,14 @@ export const CadastroForm = ({
   const inputWidth = Math.min(width * 0.9, 400);
 
   return (
-    <ScrollView 
-      style={styles.scrollContainer}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.scrollContent}
+    <KeyboardAvoidingView
+      style={styles.keyboardAvoidingContainer}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
       <View style={styles.container}>
         
         {/* TÍTULO DO FORMULÁRIO */}
@@ -226,7 +238,8 @@ export const CadastroForm = ({
           <Text style={styles.voltarButtonText}>← Voltar para Login</Text>
         </TouchableOpacity>
 
-      </View>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };

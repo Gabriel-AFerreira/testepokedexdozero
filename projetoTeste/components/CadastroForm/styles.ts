@@ -1,9 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  scrollContainer: {
+  keyboardAvoidingContainer: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  scrollContainer: {
+    flex: 1,
   },
   scrollContent: {
     flexGrow: 1,
@@ -13,7 +16,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingVertical: 20,
     paddingHorizontal: 10,
-    minHeight: '100%',
   },
   title: {
     fontSize: 26,

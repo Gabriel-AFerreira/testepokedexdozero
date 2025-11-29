@@ -99,12 +99,12 @@ interface LoginFormProps {
 
       {/* LINKS ADICIONAIS */}
       <View style={styles.linksContainer}>
-        <TouchableOpacity onPress={onForgotPassword}>
-          <Text style={styles.linkText}>Esqueci minha senha</Text>
-        </TouchableOpacity>
-        
         <TouchableOpacity onPress={onSignUp}>
           <Text style={styles.linkText}>Criar nova conta</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={onForgotPassword}>
+          <Text style={styles.linkText}>Esqueci minha senha</Text>
         </TouchableOpacity>
       </View>
 

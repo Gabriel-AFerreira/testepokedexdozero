@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10,
+    marginTop: 25,
     marginBottom: 20,
     shadowColor: '#000',
     shadowOffset: {
@@ -79,8 +79,10 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   linksContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 15,
     width: '85%',
     maxWidth: 400,
   },
@@ -88,6 +90,7 @@ export const styles = StyleSheet.create({
     color: '#FF0000', // Vermelho para combinar
     fontSize: 14,
     fontWeight: '500',
+    width: '100%',
     textDecorationLine: 'underline',
     marginRight: 30,
     marginLeft: 30,

@@ -1,106 +1,53 @@
-//Para testara tela de pokedex
-{/*import React from 'react';
-import { PokedexScreen } from './screens';
+import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { LoginScreen, PokedexScreen, CadastroScreen, PokePerfilScreen, PokePartyScreen, PokeInfoScreen } from './screens';
+import { initDatabase } from './utils/database';
+
+const Stack = createStackNavigator();
 
 export default function App() {
-  return <PokedexScreen />;
-}*/}
-//Para testar a tela de pokeparty
-{/*import React from 'react';
-import { PokePartyScreen } from './screens';
-
-export default function App() {
-  return <PokePartyScreen />;
-}*/}
-//Para testar a tela de pokeperfil
-{/*import React from 'react';
-import { PokePerfilScreen } from './screens';
-
-export default function App() {
-  return <PokePerfilScreen />;
-}*/}
-//Para testar a tela pokeinfo
-{/*import React from 'react';
-import { PokeInfoScreen } from './screens';
-
-export default function App() {
-  return <PokeInfoScreen />;
-}*/}
-
-//Para testar a tela de cadastro
-{/*import React from 'react';
-import { CadastroScreen } from './screens';
-
-export default function App() {
-  return <CadastroScreen />;
-}*/}
-
-//Para testar a tela de login(tela inicial)
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, useWindowDimensions, Alert } from 'react-native';
-import { Header } from './components'; //Importa todos os elementos que estão criados dentro da pasta 'componets' que eu criei.
-import { LoginForm } from './components/LoginForm'; //Importa todos os elementos que estão criados dentro da pasta 'componets' que eu criei.
-import { CadastroScreen } from './screens';
-
-export default function App() {
-
-  // Cálculos responsivos com limites mínimos e máximos
-  const { height } = useWindowDimensions();
-  const headerHeight = Math.max(60, Math.min(height * 0.12, 120));
-  const contentHeight = height - headerHeight;
-
-  // Função chamada quando o usuário tenta fazer login
-  const handleLogin = (email: string, password: string) => {
-    // Aqui você fará a integração com sua API/banco de dados
-    console.log('Tentativa de login:', { email, password });
-    
-    // Exemplo de feedback
-    Alert.alert(
-      'Login realizado!',
-      `Bem-vindo, ${email}!`,
-      [{ text: 'OK' }]
-    );
-  };
-
-  // Função para "Esqueci minha senha"
-  const handleForgotPassword = () => {
-    Alert.alert('Recuperar Senha', 'Funcionalidade em desenvolvimento');
-  };
-
-  // Função para "Criar conta"
-  const handleSignUp = () => {
-    Alert.alert('Criar Conta', 'Funcionalidade em desenvolvimento');
-  };
+  useEffect(() => {
+    const initializeDB = async () => {
+      await initDatabase();
+    };
+    initializeDB();
+  }, []);
 
   return (
-    <View style={styles.container}>
-
-    {/* HEADER REUTILIZÁVEL - Tela de Login */}
-      <Header title="PokeLogin" />
-
-      {/* CONTEÚDO COM FORMULÁRIO */}
-        <View style={[styles.content,{ height: contentHeight }]}>
-          <LoginForm 
-          onLogin={handleLogin}
-          onForgotPassword={handleForgotPassword}
-          onSignUp={handleSignUp}
-          />
-          <StatusBar style="auto" />
-        </View>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Cadastro"
+          component={CadastroScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Pokedex"
+          component={PokedexScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PokePerfil"
+          component={PokePerfilScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PokeParty"
+          component={PokePartyScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PokeInfo"
+          component={PokeInfoScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-// Os styles permanecem os mesmos...
-const styles = StyleSheet.create({
-  container: {
-    flex: 1, // Ocupa TODA a tela disponível
-    backgroundColor: '#fff',
-  },
-  content: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-});

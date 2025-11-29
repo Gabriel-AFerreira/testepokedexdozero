@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   View, 
   Text, 
@@ -20,32 +20,33 @@ export interface PokedexPokemon {
 
 interface PokedexCardProps {
   pokemon: PokedexPokemon;
-  onAddToParty: (pokemon: PokedexPokemon) => void;
   onToggleFavorite: (pokemon: PokedexPokemon) => void;
+  onPress?: (pokemon: PokedexPokemon) => void;
 }
 
-export const PokedexCard: React.FC<PokedexCardProps> = ({ 
-  pokemon, 
-  onAddToParty, 
-  onToggleFavorite 
+export const PokedexCard: React.FC<PokedexCardProps> = ({
+  pokemon,
+  onToggleFavorite,
+  onPress
 }) => {
   const { width } = useWindowDimensions();
-  const [isFavorite, setIsFavorite] = useState(pokemon.isFavorite || false);
-
-  const handleAddToParty = () => {
-    onAddToParty(pokemon);
-  };
 
   const handleToggleFavorite = () => {
-    const newFavoriteState = !isFavorite;
-    setIsFavorite(newFavoriteState);
-    onToggleFavorite({ ...pokemon, isFavorite: newFavoriteState });
+    onToggleFavorite(pokemon);
+  };
+
+  const handlePress = () => {
+    onPress?.(pokemon);
+  };
+
+  const handleNavigateToInfo = () => {
+    onPress?.(pokemon);
   };
 
   const cardWidth = width - 40; // Largura total com margens
 
   return (
-    <View style={[styles.card, { width: cardWidth }]}>
+    <TouchableOpacity style={[styles.card, { width: cardWidth }]} onPress={handlePress}>
       {/* Cabeçalho com Número e Nome */}
       <View style={styles.header}>
         <Text style={styles.pokemonNumber}>#{pokemon.id.toString().padStart(3, '0')}</Text>
@@ -74,23 +75,23 @@ export const PokedexCard: React.FC<PokedexCardProps> = ({
       <View style={styles.actionsContainer}>
         {/* BOTÃO FAVORITO NA ESQUERDA */}
         <TouchableOpacity
-          style={[styles.favoriteButton, isFavorite && styles.favoriteButtonActive]}
+          style={[styles.favoriteButton, pokemon.isFavorite && styles.favoriteButtonActive]}
           onPress={handleToggleFavorite}
         >
           <Text style={styles.favoriteButtonText}>
-            {isFavorite ? '★' : '☆'}
+            {pokemon.isFavorite ? '★' : '☆'}
           </Text>
         </TouchableOpacity>
 
-        {/* BOTÃO ADD PARTY NA DIREITA */}
+        {/* BOTÃO INFO NA DIREITA */}
         <TouchableOpacity
           style={styles.partyButton}
-          onPress={handleAddToParty}
+          onPress={handleNavigateToInfo}
         >
-          <Text style={styles.partyButtonText}>Add Party</Text>
+          <Text style={styles.partyButtonText}>👁️</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

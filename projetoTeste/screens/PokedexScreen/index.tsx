@@ -1,49 +1,43 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { 
-  View, 
-  useWindowDimensions, 
+import {
+  View,
+  useWindowDimensions,
   Alert,
   FlatList,
   ActivityIndicator,
   TextInput,
   TouchableOpacity,
-  Text 
+  Text
 } from 'react-native';
 import { PokeHeader } from '../../components/PokeHeader';
 import { PokedexCard, PokedexPokemon } from '../../components/PokedexCard';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../utils/navigation';
+import { fetchPokemonList, PokemonBasic, calculateWeaknesses } from '../../utils/api';
+import { saveFavoritePokemon, getFavoritePokemons, FavoritePokemon, getPartyPokemons, savePartyPokemon, initDatabase } from '../../utils/database';
 import { styles } from './styles';
 
-// Função para gerar dados mockados da Pokedex
-const generateMockPokemon = (startId: number, count: number): PokedexPokemon[] => {
-  const types = ['Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Fighting', 'Dark', 'Fairy'];
-  const pokemonNames = [
-    'Bulbasaur', 'Ivysaur', 'Venusaur', 'Charmander', 'Charmeleon', 'Charizard',
-    'Squirtle', 'Wartortle', 'Blastoise', 'Caterpie', 'Metapod', 'Butterfree',
-    'Weedle', 'Kakuna', 'Beedrill', 'Pidgey', 'Pidgeotto', 'Pidgeot',
-    'Rattata', 'Raticate', 'Spearow', 'Fearow', 'Ekans', 'Arbok',
-    'Pikachu', 'Raichu', 'Sandshrew', 'Sandslash', 'Nidoran', 'Nidorina'
-  ];
+// Convert API Pokemon to PokedexPokemon format
+const convertToPokedexPokemon = (pokemon: PokemonBasic, favorites: FavoritePokemon[]): PokedexPokemon => ({
+  id: pokemon.id,
+  name: pokemon.name,
+  types: pokemon.types,
+  image: pokemon.image,
+  isFavorite: favorites.some(fav => fav.id === pokemon.id),
+  inParty: false, // Will be managed by local state/database later
+});
 
-  return Array.from({ length: count }, (_, index) => {
-    const id = startId + index;
-    const randomType1 = types[Math.floor(Math.random() * types.length)];
-    const randomType2 = Math.random() > 0.7 ? types[Math.floor(Math.random() * types.length)] : undefined;
-    const pokemonTypes = randomType2 ? [randomType1, randomType2] : [randomType1];
-    
-    return {
-      id,
-      name: pokemonNames[Math.floor(Math.random() * pokemonNames.length)] || `Pokemon${id}`,
-      types: pokemonTypes,
-      image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
-      isFavorite: Math.random() > 0.8, // 20% chance de ser favorito inicialmente
-      inParty: Math.random() > 0.9, // 10% chance de estar na party
-    };
-  });
-};
+const ITEMS_PER_PAGE = 20;
 
-const ITEMS_PER_PAGE = 150;
+type PokedexScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Pokedex'>;
 
-export const PokedexScreen = () => {
+interface PokedexScreenProps {
+  onLogout?: () => void;
+}
+
+export const PokedexScreen: React.FC<PokedexScreenProps> = ({ onLogout }) => {
+  const navigation = useNavigation<PokedexScreenNavigationProp>();
   const { height } = useWindowDimensions();
   const [pokemonList, setPokemonList] = useState<PokedexPokemon[]>([]);
   const [loading, setLoading] = useState(true);
@@ -51,70 +45,154 @@ export const PokedexScreen = () => {
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentOffset, setCurrentOffset] = useState(0);
+  const [favorites, setFavorites] = useState<FavoritePokemon[]>([]);
 
   const headerHeight = Math.max(60, Math.min(height * 0.12, 120));
   const contentHeight = height - headerHeight;
 
   // Carregar dados iniciais
   useEffect(() => {
-    loadMorePokemon();
+    loadInitialData();
   }, []);
+
+  // Reload favorites when screen is focused
+  useFocusEffect(
+    useCallback(() => {
+      loadFavorites();
+    }, [])
+  );
+
+  // Update pokemon list favorite status when favorites change
+  useEffect(() => {
+    setPokemonList(prev =>
+      prev.map(p => ({
+        ...p,
+        isFavorite: favorites.some(fav => fav.id === p.id)
+      }))
+    );
+  }, [favorites]);
+
+  const loadInitialData = async () => {
+    try {
+      await initDatabase();
+      const favoritePokemons = await getFavoritePokemons();
+      setFavorites(favoritePokemons);
+      await loadInitialPokemon(favoritePokemons);
+    } catch (error) {
+      console.error('Error loading initial data:', error);
+    }
+  };
+
+  const loadInitialPokemon = async (favoritePokemons: FavoritePokemon[]) => {
+    setLoadingMore(true);
+
+    try {
+      const newPokemon = await fetchPokemonList(0, ITEMS_PER_PAGE);
+      const pokedexPokemon = newPokemon.map(pokemon => convertToPokedexPokemon(pokemon, favoritePokemons));
+      setPokemonList(pokedexPokemon);
+      setCurrentOffset(ITEMS_PER_PAGE);
+    } catch (error) {
+      console.error('Error loading initial Pokemon:', error);
+      Alert.alert('Erro', 'Não foi possível carregar os Pokémon. Tente novamente.');
+    } finally {
+      setLoadingMore(false);
+      setLoading(false);
+    }
+  };
+
+  const loadFavorites = async () => {
+    try {
+      const favoritePokemons = await getFavoritePokemons();
+      setFavorites(favoritePokemons);
+    } catch (error) {
+      console.error('Error loading favorites:', error);
+    }
+  };
 
   const loadMorePokemon = useCallback(async () => {
     if (loadingMore) return;
-    
+
     setLoadingMore(true);
-    
-    // Simula delay de API
-    setTimeout(() => {
-      const newPokemon = generateMockPokemon(currentOffset + 1, ITEMS_PER_PAGE);
-      setPokemonList(prev => [...prev, ...newPokemon]);
+
+    try {
+      const newPokemon = await fetchPokemonList(currentOffset, ITEMS_PER_PAGE);
+      const pokedexPokemon = newPokemon.map(pokemon => convertToPokedexPokemon(pokemon, favorites));
+      setPokemonList(prev => [...prev, ...pokedexPokemon]);
       setCurrentOffset(prev => prev + ITEMS_PER_PAGE);
+    } catch (error) {
+      console.error('Error loading more Pokemon:', error);
+      Alert.alert('Erro', 'Não foi possível carregar mais Pokémon. Tente novamente.');
+    } finally {
       setLoadingMore(false);
       setLoading(false);
-    }, 1000);
-  }, [currentOffset, loadingMore]);
+    }
+  }, [currentOffset, loadingMore, favorites]);
 
   const handleMenuSelect = (option: string) => {
-    Alert.alert('Menu Selecionado', `Você escolheu: ${option}`);
+    switch (option) {
+      case 'perfil':
+        navigation.navigate('PokePerfil');
+        break;
+      case 'dex':
+        // Already on Pokedex
+        break;
+      case 'party':
+        navigation.navigate('PokeParty');
+        break;
+      case 'logout':
+        navigation.navigate('Login');
+        break;
+      default:
+        break;
+    }
   };
 
   const handleSearchPress = () => {
     setSearchVisible(!searchVisible);
   };
 
-  const handleAddToParty = (pokemon: PokedexPokemon) => {
-    Alert.alert(
-      'Adicionar à Party',
-      `Deseja adicionar ${pokemon.name} à sua party?`,
-      [
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-        },
-        {
-          text: 'Adicionar',
-          onPress: () => {
-            Alert.alert('Sucesso', `${pokemon.name} foi adicionado à sua party!`);
-            // TODO: Implementar lógica real de adicionar à party
-          },
-        },
-      ]
-    );
-  };
 
-  const handleToggleFavorite = (pokemon: PokedexPokemon) => {
-    // Atualiza o estado local
-    setPokemonList(prev => 
-      prev.map(p => 
-        p.id === pokemon.id ? { ...p, isFavorite: pokemon.isFavorite } : p
-      )
-    );
-    
-    const action = pokemon.isFavorite ? 'adicionado aos' : 'removido dos';
-    Alert.alert('Sucesso', `${pokemon.name} foi ${action} favoritos!`);
-    
-    // TODO: Implementar lógica real de favoritos no banco de dados
+
+  const handleToggleFavorite = async (pokemon: PokedexPokemon) => {
+    try {
+      const wasFavorited = favorites.some(fav => fav.id === pokemon.id);
+
+      // Prepare favorite pokemon data
+      const favoritePokemon: FavoritePokemon = {
+        id: pokemon.id,
+        name: pokemon.name,
+        image: pokemon.image,
+        types: pokemon.types,
+        weaknesses: calculateWeaknesses(pokemon.types),
+      };
+
+      // Save to database (this will toggle favorite status)
+      await saveFavoritePokemon(favoritePokemon);
+
+      // Reload favorites to get updated state
+      await loadFavorites();
+
+      // Get the updated favorites list
+      const updatedFavorites = await getFavoritePokemons();
+      setFavorites(updatedFavorites);
+
+      // Update pokemon list to reflect new favorite status
+      setPokemonList(prev =>
+        prev.map(p => ({
+          ...p,
+          isFavorite: updatedFavorites.some(fav => fav.id === p.id)
+        }))
+      );
+
+      // Determine action based on new state
+      const isNowFavorited = updatedFavorites.some(fav => fav.id === pokemon.id);
+      const message = isNowFavorited ? `${pokemon.name} foi adicionado aos favoritos!` : `pokemon removido`;
+
+      Alert.alert('Sucesso', message);
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+      Alert.alert('Erro', 'Não foi possível atualizar os favoritos. Tente novamente.');
+    }
   };
 
   // Filtrar Pokémon baseado na busca
@@ -123,11 +201,15 @@ export const PokedexScreen = () => {
     pokemon.id.toString().includes(searchQuery)
   );
 
+  const handlePokemonPress = (pokemon: PokedexPokemon) => {
+    navigation.navigate('PokeInfo', { pokemonId: pokemon.id });
+  };
+
   const renderPokemonCard = useCallback(({ item }: { item: PokedexPokemon }) => (
     <PokedexCard
       pokemon={item}
-      onAddToParty={handleAddToParty}
       onToggleFavorite={handleToggleFavorite}
+      onPress={handlePokemonPress}
     />
   ), []);
 
@@ -144,8 +226,8 @@ export const PokedexScreen = () => {
 
   return (
     <View style={styles.container}>
-      <PokeHeader 
-        title="Pokedex" 
+      <PokeHeader
+        title="Pokedex"
         onMenuSelect={handleMenuSelect}
         onSearchPress={handleSearchPress}
       />

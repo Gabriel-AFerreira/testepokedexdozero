@@ -8,12 +8,4 @@ export const styles = StyleSheet.create({
   content: {
     backgroundColor: '#fff',
   },
-  scrollView: {
-    flex: 1,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
 });

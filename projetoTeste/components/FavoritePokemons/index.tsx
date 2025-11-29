@@ -21,11 +21,13 @@ export interface FavoritePokemon {
 interface FavoritePokemonsProps {
   favorites: FavoritePokemon[];
   onRemoveFavorite?: (pokemonId: number) => void;
+  onPokemonPress?: (pokemon: FavoritePokemon) => void;
 }
 
-export const FavoritePokemons: React.FC<FavoritePokemonsProps> = ({ 
-  favorites, 
-  onRemoveFavorite 
+export const FavoritePokemons: React.FC<FavoritePokemonsProps> = ({
+  favorites,
+  onRemoveFavorite,
+  onPokemonPress
 }) => {
   const { width } = useWindowDimensions();
   const pokemonCardWidth = (width - 60) / 2; // 2 colunas com margens
@@ -71,8 +73,12 @@ export const FavoritePokemons: React.FC<FavoritePokemonsProps> = ({
       >
         <View style={styles.pokemonGrid}>
           {favorites.map((pokemon) => (
-            <View key={pokemon.id} style={[styles.pokemonCard, { width: pokemonCardWidth }]}>
-              
+            <TouchableOpacity
+              key={pokemon.id}
+              style={[styles.pokemonCard, { width: pokemonCardWidth }]}
+              onPress={() => onPokemonPress?.(pokemon)}
+            >
+
               {/* Botão de Remover Favorito */}
               <TouchableOpacity
                 style={styles.removeButton}
@@ -80,18 +86,18 @@ export const FavoritePokemons: React.FC<FavoritePokemonsProps> = ({
               >
                 <Text style={styles.removeButtonText}>×</Text>
               </TouchableOpacity>
-              
+
               {/* Imagem do Pokémon */}
               <Image
                 source={{ uri: pokemon.image }}
                 style={styles.pokemonImage}
                 resizeMode="contain"
               />
-              
+
               {/* Informações do Pokémon */}
               <View style={styles.pokemonInfo}>
                 <Text style={styles.pokemonName}>{pokemon.name}</Text>
-                
+
                 {/* Tipos */}
                 <View style={styles.typesContainer}>
                   <Text style={styles.smallLabel}>Tipo:</Text>
@@ -103,7 +109,7 @@ export const FavoritePokemons: React.FC<FavoritePokemonsProps> = ({
                     ))}
                   </View>
                 </View>
-                
+
                 {/* Fraquezas */}
                 <View style={styles.typesContainer}>
                   <Text style={styles.smallLabel}>Fraquezas:</Text>
@@ -116,7 +122,7 @@ export const FavoritePokemons: React.FC<FavoritePokemonsProps> = ({
                   </View>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
